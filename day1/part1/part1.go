@@ -44,11 +44,9 @@ func main() {
 	slices.Sort(list1)
 	slices.Sort(list2)
 
-	distances := make([]int, len(list1))
 	sum := 0
 	for i := 0; i < len(list1); i++ {
-		distances[i] = abs(list2[i] - list1[i])
-		sum += distances[i]
+		sum += abs(list2[i] - list1[i])
 	}
 
 	fmt.Printf("sum: %d\n", sum)

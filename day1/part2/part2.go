@@ -51,8 +51,8 @@ func main() {
 
 	similarityScore := 0
 	for _, num := range list1 {
-		count, valid := counts[num]
-		if valid {
+		count, ok := counts[num]
+		if ok {
 			similarityScore += num * count
 		}
 	}

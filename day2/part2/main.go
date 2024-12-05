@@ -66,6 +66,11 @@ func getReports(filename string) [][]int {
 	if err != nil {
 		panic(err)
 	}
+	defer func(file *os.File) {
+		if err := file.Close(); err != nil {
+			panic(err)
+		}
+	}(file)
 	scanner := bufio.NewScanner(file)
 
 	var reports [][]int
@@ -73,8 +78,8 @@ func getReports(filename string) [][]int {
 		var report []int
 		if !empty(scanner.Text()) {
 			for _, level := range strings.Fields(scanner.Text()) {
-				if num, err := strconv.Atoi(level); err == nil {
-					report = append(report, num)
+				if parsedLevel, err := strconv.Atoi(level); err == nil {
+					report = append(report, parsedLevel)
 				} else {
 					panic(err)
 				}
@@ -85,18 +90,18 @@ func getReports(filename string) [][]int {
 	return reports
 }
 
-func abs(x int) int {
-	if x > 0 {
-		return x
-	} else {
-		return -x
-	}
-}
-
 func empty(s string) bool {
 	if strings.Trim(s, " ") == "" {
 		return true
 	} else {
 		return false
+	}
+}
+
+func abs(x int) int {
+	if x > 0 {
+		return x
+	} else {
+		return -x
 	}
 }

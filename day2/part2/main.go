@@ -20,45 +20,45 @@ func main() {
 
 	numSafeReports := 0
 	for _, report := range reports {
-		var prevDirection direction
-		if report[1] > report[0] {
-			prevDirection = increasing
-		} else if report[1] < report[0] {
-			prevDirection = decreasing
-		}
-
-		// dec dec inc dec dec
-		// inc dec dec dec
-		// [0, 1, -4, -5, -7]
-
-		// 1 3 2 4 5: Safe by removing the second level, 3.
-		// 8 6 4 4 1: Safe by removing the third level, 4.
-
-		numBadReports := 0
-		for i := 1; i < len(report); i++ {
-			var currDirection direction
-			if report[i] > report[i-1] {
-				currDirection = increasing
-			} else if report[i] < report[i-1] {
-				currDirection = decreasing
+		for i := 0; i < len(report); i++ {
+			reportExcludingLevel := make([]int, len(report)-1)
+			copy(reportExcludingLevel, report[:i])
+			copy(reportExcludingLevel[i:], report[i+1:])
+			if isSafe(reportExcludingLevel) {
+				numSafeReports += 1
+				break
 			}
-			diff := abs(report[i] - report[i-1])
-			if (diff < 1 || diff > 3) || currDirection != prevDirection {
-				numBadReports += 1
-				if numBadReports > 1 {
-					break
-				}
-			}
-
-			prevDirection = currDirection
-		}
-
-		if numBadReports <= 1 {
-			numSafeReports += 1
 		}
 	}
 
 	fmt.Printf("numSafeReports: %d\n", numSafeReports)
+}
+
+func isSafe(report []int) bool {
+	var prevDirection direction
+	if report[1] > report[0] {
+		prevDirection = increasing
+	} else if report[1] < report[0] {
+		prevDirection = decreasing
+	}
+
+	isSafe := true
+	for i := 1; i < len(report); i++ {
+		var currDirection direction
+		if report[i] > report[i-1] {
+			currDirection = increasing
+		} else if report[i] < report[i-1] {
+			currDirection = decreasing
+		}
+		diff := abs(report[i] - report[i-1])
+		if (diff < 1 || diff > 3) || currDirection != prevDirection {
+			isSafe = false
+			break
+		}
+
+		prevDirection = currDirection
+	}
+	return isSafe
 }
 
 func getReports(filename string) [][]int {

@@ -58,6 +58,7 @@ func isSafe(report []int) bool {
 
 		prevDirection = currDirection
 	}
+
 	return isSafe
 }
 

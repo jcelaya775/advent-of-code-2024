@@ -20,10 +20,8 @@ func main() {
 		for col := 0; col < len(ws.puzzle[0]); col++ {
 			for _, neighborDirection := range [][]int{{-1, 0}, {1, 0}, {0, -1}, {0, 1}, {-1, -1}, {-1, 1}, {1, -1}, {1, 1}} {
 				drow, dcol := neighborDirection[0], neighborDirection[1]
-				if ws.puzzle[row][col] == string(ws.target[0]) {
-					if ws.isValidSearchDirection(row, col, drow, dcol) {
-						numOccurrences++
-					}
+				if ws.puzzle[row][col] == string(ws.target[0]) && ws.isValidSearchDirection(row, col, drow, dcol) {
+					numOccurrences++
 				}
 			}
 		}

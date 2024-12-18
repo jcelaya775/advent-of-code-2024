@@ -63,17 +63,6 @@ func main() {
 	fmt.Printf("# positions visited: %d\n", len(puzzle.Visited))
 }
 
-func (puzzle *Puzzle) mapToStr() string {
-	s := strings.Builder{}
-	for _, row := range puzzle.Map {
-		for _, char := range row {
-			s.WriteString(char)
-		}
-		s.WriteString("\n")
-	}
-	return s.String()
-}
-
 func (puzzle *Puzzle) moveGuard(pos Coord, guard string, numSteps int) (Coord, string) {
 	var newRow, newCol int
 	for range numSteps {
@@ -128,6 +117,17 @@ func isGuard(char string) bool {
 	} else {
 		return false
 	}
+}
+
+func (puzzle *Puzzle) mapToStr() string {
+	s := strings.Builder{}
+	for _, row := range puzzle.Map {
+		for _, char := range row {
+			s.WriteString(char)
+		}
+		s.WriteString("\n")
+	}
+	return s.String()
 }
 
 func NewPuzzle(filename string) Puzzle {
